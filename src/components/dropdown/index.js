@@ -129,6 +129,7 @@ export default class Dropdown extends PureComponent {
 
     renderBase: PropTypes.func,
     renderAccessory: PropTypes.func,
+    renderItem: PropTypes.func,
 
     containerStyle: (ViewPropTypes || View.propTypes).style,
     pickerStyle: (ViewPropTypes || View.propTypes).style,
@@ -539,6 +540,10 @@ export default class Dropdown extends PureComponent {
           return null;
         }
 
+        if (this.props.renderItem) {
+          return this.props.renderItem(item, index, this.onSelect);
+        }
+
         let value = valueExtractor(item, index);
         let label = labelExtractor(item, index);
 
@@ -669,9 +674,10 @@ export default class Dropdown extends PureComponent {
           visible={modal}
           transparent={true}
           onRequestClose={this.onClose}
+          style={{backgroundColor: '#f00'}}
           supportedOrientations={supportedOrientations}
         >
-          <TouchableWithoutFeedback onPress={this.onClose}>
+          {/* <TouchableWithoutFeedback onPress={this.onClose}> */}
             <View style={overlayStyle}>
               <Animated.View
                 style={[styles.picker, pickerStyle, pickerStyleOverrides]}
@@ -686,7 +692,7 @@ export default class Dropdown extends PureComponent {
                 </ScrollView>
               </Animated.View>
             </View>
-          </TouchableWithoutFeedback>
+          {/* </TouchableWithoutFeedback> */}
         </Modal>
       </View>
     );
